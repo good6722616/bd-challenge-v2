@@ -4,19 +4,20 @@
 
 ### Hello fellow candidate! 👋
 
-###### Today's challenge is to build a product review app in Shopify. The project uses Remix/Reactjs, Polaris and Shopify's Admin Graphql API. The app design will be broken up into several different parts, which we will get into shortly 😎!
+###### Today's challenge is to build a product review app in Shopify. The project uses Remix/Reactjs, Polaris, and Shopify's Admin Graphql API. The app design will be divided into several parts, which we will get into shortly 😎!
 
 ### Why a Product Review app?
 
-###### We believe this is the best challenge to demonstrate your technical skills, problem solving and knowledge of Javascript Frameworks, Shopify, and Graphql.
+###### We believe this is the best challenge to demonstrate your technical skills, problem-solving, and knowledge of Javascript Frameworks, Shopify, and Graphql.
 
 ### What's the goal of this challenge? ⚽
 
-###### I'm glad you asked! We want to get an understanding of your abilities by measuring how readable your code is, how you approach problems and your attention to detail.
+###### I'm glad you asked! We want to understand your abilities by measuring how readable your code is, how you approach problems, and your attention to detail.
 
-### What's the process like?
+### What's the process like? 
 
-###### Well, you should have received the resources ahead of time, to get an idea of the resources you'll need to build a Product Review app in Shopify. You'll have at most a day to build out the app. Feel free to spend as much OR as little time to complete this challenge. Once you're confident you've completed the challenge, please submit your repo via email for review.
+###### Feel free to spend as much OR as little of the allotted time to complete this challenge. Please complete the challenge to the best of your abilities and submit your repo via email for review.
+###### We look forward to your submission and will respond once we've reviewed 😄!
 
 ### Project Requirements:
 
