@@ -1,10 +1,111 @@
 {% schema %}
 {
-  "name": "Review",
+  "name": "Product Review",
   "target": "section",
   "enabled_on": {
     "templates": ["product"]
   },
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Review Settings"
+    }
+  ]
 }
 {% endschema %}
+
+{% comment %}
+  Star Rating Component for Product Reviews
+  Accepts:
+  - rating: Current rating value (1-5)
+  - is_input: Boolean to determine if this is an input (for new reviews) or display only
+  - input_name: Name attribute for the input field
+{% endcomment %}
+
+<div class="star-rating {% if is_input %}star-rating--input{% endif %}"
+     data-rating="{{ rating | default: 0 }}"
+     data-max="5">
+  {% if is_input %}
+    <div class="star-rating__input-wrapper">
+      {% for i in (1..5) %}
+        <input type="radio" 
+               name="{{ input_name }}" 
+               value="{{ i }}" 
+               id="{{ input_name }}-{{ i }}"
+               class="star-rating__input"
+               {% if rating == i %}checked{% endif %}>
+        <label for="{{ input_name }}-{{ i }}" 
+               class="star-rating__label"
+               title="{{ 'review_embed.star_rating.stars' | t: count: i }}">
+          {% render 'icon-star' %}
+        </label>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="star-rating__display">
+      {% for i in (1..5) %}
+        <span class="star-rating__star {% if i <= rating %}star-rating__star--filled{% endif %}">
+          {% render 'icon-star' %}
+        </span>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+<style>
+  .star-rating {
+    --star-size: 24px;
+    --star-color: #d1d5db;
+    --star-filled: #fbbf24;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  .star-rating__display,
+  .star-rating__input-wrapper {
+    display: inline-flex;
+    gap: 4px;
+  }
+
+  .star-rating__star,
+  .star-rating__label {
+    width: var(--star-size);
+    height: var(--star-size);
+    color: var(--star-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .star-rating__star--filled {
+    color: var(--star-filled);
+  }
+
+  .star-rating--input .star-rating__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .star-rating--input .star-rating__label {
+    cursor: pointer;
+  }
+
+  .star-rating--input .star-rating__input:checked ~ .star-rating__label {
+    color: var(--star-color);
+  }
+
+  .star-rating--input .star-rating__label:hover,
+  .star-rating--input .star-rating__label:hover ~ .star-rating__label,
+  .star-rating--input .star-rating__input:checked + .star-rating__label {
+    color: var(--star-filled);
+  }
+</style>

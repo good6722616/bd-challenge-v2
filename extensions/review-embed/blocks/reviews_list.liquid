@@ -1,0 +1,77 @@
+{% schema %}
+{
+  "name": "Product Reviews List",
+  "target": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": []
+}
+{% endschema %}
+
+<div class="reviews-list">
+  <h3>{{ 'review_embed.reviews.title' | t }}</h3>
+  
+  {% assign reviews = product.metafields.product_reviews | sort: 'date' | reverse %}
+  
+  {% if reviews.size > 0 %}
+    {% for review in reviews %}
+      <div class="review-item">
+        <div class="review-item__header">
+          <span class="review-item__author">{{ review.reviewerName }}</span>
+          <span class="review-item__date">
+            {{ review.date | date: "%B %d, %Y" }}
+          </span>
+        </div>
+        
+        {% render 'star_rating', rating: review.rating %}
+        
+        <p class="review-item__content">{{ review.content }}</p>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="reviews-list__empty">
+      {{ 'review_embed.reviews.no_reviews' | t }}
+    </p>
+  {% endif %}
+</div>
+
+<style>
+  .reviews-list {
+    max-width: 800px;
+    margin: 2rem auto;
+  }
+
+  .review-item {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+  }
+
+  .review-item__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  .review-item__author {
+    font-weight: 500;
+  }
+
+  .review-item__date {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+
+  .review-item__content {
+    margin-top: 0.5rem;
+  }
+
+  .reviews-list__empty {
+    text-align: center;
+    color: #6b7280;
+    padding: 2rem;
+  }
+</style> 

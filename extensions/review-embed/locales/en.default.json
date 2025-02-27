@@ -6,5 +6,23 @@
     "home": {
       "recommendationText": "Recommended Product!"
     }
+  },
+  "review_embed": {
+    "star_rating": {
+      "stars": "{{count}} stars"
+    },
+    "form": {
+      "title": "Write a Review",
+      "name_label": "Your Name",
+      "rating_label": "Rating",
+      "content_label": "Your Review",
+      "submit": "Submit Review",
+      "success": "Thank you for your review!",
+      "error": "Sorry, there was an error submitting your review. Please try again."
+    },
+    "reviews": {
+      "title": "Customer Reviews",
+      "no_reviews": "No reviews yet. Be the first to review this product!"
+    }
   }
 }

@@ -1,41 +1,33 @@
-# Whenever a `shopify.app.toml` is generated after you've run `pnpm dev` make sure you update the generated config with the below, of course replace any values in `[]` brackets with the values that are within the actual `shopify.app.toml` file.
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "[client_id]"
-application_url = "https://example.com"
+name = "review-embed"
+client_id = "ff60c711b66756890cff1b0a073b6e30"
+application_url = "https://fa-expression-airplane-amazing.trycloudflare.com"
 embedded = true
-name = "[name]"
-handle = "[handle]"
+handle = "bryt-design-challenge"
+
+[build]
+automatically_update_urls_on_dev = true
 
 [webhooks]
 api_version = "2025-01"
 
-  [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled" ]
-  uri = "/webhooks/app/uninstalled"
-
-  [[webhooks.subscriptions]]
-  topics = [ "app/scopes_update" ]
-  uri = "/webhooks/app/scopes_update"
-
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_customer_events,read_customers,read_metaobject_definitions,read_metaobjects,write_customers,write_metaobject_definitions,write_metaobjects,write_products,read_products"
+write_products = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://example.com/auth/callback",
-  "https://example.com/auth/shopify/callback",
-  "https://example.com/api/auth/callback"
+  "https://fa-expression-airplane-amazing.trycloudflare.com/auth/callback",
+  "https://fa-expression-airplane-amazing.trycloudflare.com/auth/shopify/callback",
+  "https://fa-expression-airplane-amazing.trycloudflare.com/api/auth/callback"
 ]
+embedded_app_url = "https://fa-expression-airplane-amazing.trycloudflare.com"
 
 [pos]
 embedded = false
 
 [app_proxy]
-url = "https://example.com/api/public"
-subpath = "reviewer-9000"
+url = "https://fa-expression-airplane-amazing.trycloudflare.com"
+subpath = "api"
 prefix = "apps"
-
-[build]
-dev_store_url = "[dev_store_url]"
-automatically_update_urls_on_dev = true

@@ -1,0 +1,49 @@
+{% schema %}
+{
+  "name": "Product Reviews Display",
+  "target": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": []
+}
+{% endschema %}
+
+<div class="reviews-display">
+  <h3>Customer Reviews</h3>
+  {% assign reviews = product.metafields.product_reviews | sort: "date" | reverse %}
+  
+  {% if reviews.size > 0 %}
+    {% for review in reviews %}
+      <div class="review-item">
+        <div class="review-header">
+          <div class="review-rating">
+            {% for i in (1..5) %}
+              {% render 'icon-star' class: i <= review.rating | "star-filled" : "star-empty" %}
+            {% endfor %}
+          </div>
+          <div class="review-author">{{ review.reviewerName }}</div>
+        </div>
+        <div class="review-content">{{ review.content }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="no-reviews">No reviews yet. Be the first to review this product!</p>
+  {% endif %}
+</div>
+
+<style>
+  .reviews-display {
+    margin: 2rem 0;
+  }
+  .review-item {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem 0;
+  }
+  .star-filled {
+    color: #fbbf24;
+  }
+  .star-empty {
+    color: #d1d5db;
+  }
+</style> 

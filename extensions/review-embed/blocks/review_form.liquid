@@ -1,0 +1,191 @@
+{% schema %}
+{
+  "name": "Product Review Form",
+  "target": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": []
+}
+{% endschema %}
+
+<div class="review-form" data-product-id="{{ product.id }}">
+  <h3>{{ 'review_embed.form.title' | t }}</h3>
+  
+  <form id="product-review-form" class="review-form__container">
+    <div class="review-form__field">
+      <label for="review-name">{{ 'review_embed.form.name_label' | t }}</label>
+      <input type="text" 
+             id="review-name" 
+             name="reviewer_name" 
+             required>
+    </div>
+
+    <div class="review-form__field">
+      <label>{{ 'review_embed.form.rating_label' | t }}</label>
+      <div class="star-rating-input">
+        {% for i in (1..5) %}
+          <input type="radio" 
+                 name="rating" 
+                 value="{{ i }}" 
+                 id="rating-{{ i }}"
+                 required
+                 class="star-rating__input">
+          <label for="rating-{{ i }}" 
+                 class="star-rating__label">
+            {% render 'icon-star' %}
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="review-form__field">
+      <label for="review-content">{{ 'review_embed.form.content_label' | t }}</label>
+      <textarea id="review-content" 
+                name="content" 
+                rows="4" 
+                required></textarea>
+    </div>
+
+    <button type="submit" class="review-form__submit">
+      {{ 'review_embed.form.submit' | t }}
+    </button>
+  </form>
+</div>
+
+<style>
+  .review-form {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .review-form__container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .review-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .review-form__field label {
+    font-weight: 500;
+    color: #374151;
+  }
+
+  .review-form__field input,
+  .review-form__field textarea {
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  .review-form__submit {
+    background: #2563eb;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .review-form__submit:hover {
+    background: #1d4ed8;
+  }
+
+  .star-rating-input {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+  }
+
+  .star-rating__input {
+    display: none;
+  }
+
+  .star-rating__label {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    color: #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .star-rating__input:checked + .star-rating__label,
+  .star-rating__label:hover,
+  .star-rating__label:hover ~ .star-rating__label {
+    color: #fbbf24;
+  }
+
+  .icon-star {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script>
+  class ReviewForm {
+    constructor(form) {
+      this.form = form;
+      this.productId = form.closest('[data-product-id]').dataset.productId;
+      this.setupEventListeners();
+    }
+
+    setupEventListeners() {
+      this.form.addEventListener('submit', this.handleSubmit.bind(this));
+    }
+
+    async handleSubmit(event) {
+      event.preventDefault();
+      
+      const formData = new FormData(this.form);
+      const reviewData = {
+        productId: this.productId,
+        rating: parseInt(formData.get('rating')),
+        reviewerName: formData.get('reviewer_name'),
+        content: formData.get('content'),
+        date: new Date().toISOString()
+      };
+
+      try {
+        const response = await fetch('/apps/api/public/reviews', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Shopify-Shop-Domain': Shopify.shop
+          },
+          body: JSON.stringify(reviewData)
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Failed to submit review');
+        }
+
+        // Clear form and show success message
+        this.form.reset();
+        alert('{{ "review_embed.form.success" | t }}');
+      } catch (error) {
+        console.error('Error submitting review:', error);
+        alert('{{ "review_embed.form.error" | t }}');
+      }
+    }
+  }
+
+  // Initialize all review forms on the page
+  document.querySelectorAll('#product-review-form').forEach(form => {
+    new ReviewForm(form);
+  });
+</script> 
